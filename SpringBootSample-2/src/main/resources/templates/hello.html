@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Hello World</title>
+</head>
+<body>
+	<h1>Hello Worldだぜ</h1>
+	<form method="post" action="/hello">
+		入力：<input type="text" name="text1">
+		<input type="submit" value="クリックだぜ">
+	</form>
+	<br>
+	<form method="get" action="/hello/db">
+		ID:<input type="text" name="id">
+		<input type="submit" value="クリック">
+	</form>
+</body>
+</html>
