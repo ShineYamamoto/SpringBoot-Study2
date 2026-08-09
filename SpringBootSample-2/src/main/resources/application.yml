@@ -23,6 +23,7 @@ spring:
 # MyBatis
 mybatis:
   mapper-locations: classpath*:/mapper/h2/*.xml
+
 # Log Level
 logging:
   level:

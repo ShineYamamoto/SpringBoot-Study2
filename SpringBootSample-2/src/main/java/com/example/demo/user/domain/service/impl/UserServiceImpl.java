@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void signup(MUser user) {
 		user.setDepartmentId(1); // 部署
-		user.setRole("ROLE_GENERAL"); // ロール
+		user.setRole("ROLE_GENERAL");
 		int count = mapper.insertOne(user);
 		log.info("登録件数={}件", count);
 	}

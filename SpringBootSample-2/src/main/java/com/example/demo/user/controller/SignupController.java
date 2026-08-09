@@ -50,7 +50,7 @@ public class SignupController {
 	public String postSignup(Model model, @ModelAttribute @Validated SignupForm form, BindingResult bindingResult) {
 		// 入力チェック結果
 		if (bindingResult.hasErrors()) {
-			// NG: ユーザー登録画面に戻る
+			// NG:ユーザー登録画面に戻ります
 			return getSignup(model, form);
 		}
 		
@@ -59,6 +59,7 @@ public class SignupController {
 		MUser user = modelMapper.map(form, MUser.class);
 		// ユーザー登録
 		userService.signup(user);
+		
 		// ログイン画面にリダイレクト
 		return "redirect:/login";
 	}
