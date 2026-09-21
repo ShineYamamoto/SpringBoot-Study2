@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.user.domain.model.MUser;
 import com.example.demo.user.domain.service.UserService;
-import com.example.demo.user.repository.UserMapper;
 import com.example.demo.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Primary
 public class UserServiceImpl2 implements UserService {
-	
-	private final UserMapper mapper;
 	
 	private final UserRepository repository;
 	
@@ -54,9 +51,10 @@ public class UserServiceImpl2 implements UserService {
 		return user;
 	}
 	
+	@Transactional
 	@Override
 	public void updateUserOne(String userId, String password, String userName) {
-		int count = mapper.updateOne(userId, password, userName);
+		int count = repository.updateUser(userId, password, userName);
 		log.info("更新件数={}", count);
 	}
 	
