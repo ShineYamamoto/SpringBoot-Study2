@@ -1,7 +1,9 @@
 package com.example.demo.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -18,6 +20,14 @@ public class LogAspect {
 	@Pointcut("execution(* *..*UserService*.*(..))")
 	public void userService() {}
 	
+	/** 対象：@GetMappingアノテーション */
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
+	public void getMapping() {}
+	
+	/** 対象：@PostMappingアノテーション */
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+	public void postMapping() {};
+	
 	/** サービスの実行前にログを出力する */
 	@Before("userService()")
 	public void startLog(JoinPoint jp) {
@@ -28,5 +38,27 @@ public class LogAspect {
 	@After("userService()")
 	public void endLog(JoinPoint jp) {
 		log.info("メソッド終了: {}", jp.getSignature());
+	}
+	
+	/** GetMappingとPostMappingの実行前後でログ出力する */
+	@Around("getMapping() || postMapping()")
+	public Object startLog(ProceedingJoinPoint jp) throws Throwable {
+		
+		// ログ開始
+		log.info("メッソド開始(Controller): {}", jp.getSignature());
+		
+		try {
+			// メソッド実行
+			Object result =jp.proceed();
+			// ログ終了
+			log.info("メソッド終了(Controller): {}", jp.getSignature());
+			// 実行結果を呼び出し元に返却
+			return result;
+		} catch (Exception e) {
+			// エラーログ出力
+			log.error("メソッド異常終了(Controller); {}", jp.getSignature());
+			// エラーの再スロー
+			throw e;
+		}
 	}
 }
