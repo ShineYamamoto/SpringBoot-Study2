@@ -42,6 +42,9 @@ public class SecurityConfig {
 					.defaultSuccessUrl("/user/list")
 					.failureUrl("/login?error")
 					.permitAll()
+			).logout(logout -> logout
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login?logout")
 			);
 		
 		// CSRFを無効（一時的）
