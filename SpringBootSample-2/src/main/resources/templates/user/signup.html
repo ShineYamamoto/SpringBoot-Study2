@@ -12,6 +12,7 @@
 </head>
 <body class="bg-light">
 	<form id="signup-form" method="post" action="/user/signup" class="form-signup mt-5" th:object="${signupForm}">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		<h2 class="text-center" th:text="#{user.signup.title}"></h2>
 		<!-- ユーザーID -->
 		<div class="form-group">
