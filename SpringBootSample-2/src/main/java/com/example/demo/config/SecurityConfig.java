@@ -45,6 +45,9 @@ public class SecurityConfig {
 			).logout(logout -> logout
 					.logoutUrl("/logout")
 					.logoutSuccessUrl("/login?logout")
+			).rememberMe(remember -> remember
+					.rememberMeParameter("remember-me")
+					.tokenValiditySeconds(3600)
 			);
 		
 		// CSRFを無効（一時的）
