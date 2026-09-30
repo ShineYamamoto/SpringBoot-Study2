@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,19 +46,23 @@ public class LogAspect {
 	@Around("getMapping() || postMapping()")
 	public Object startLog(ProceedingJoinPoint jp) throws Throwable {
 		
-		// ログ開始
-		log.info("メッソド開始(Controller): {}", jp.getSignature());
+		// 認証情報取得
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userId = authentication.getName();
+		
+		// 開始ログ出力
+		log.info("ユーザーID={}, メソッド開始(Contoller): {}", userId, jp.getSignature());
 		
 		try {
 			// メソッド実行
 			Object result =jp.proceed();
 			// ログ終了
-			log.info("メソッド終了(Controller): {}", jp.getSignature());
+			log.info("ユーザーID={}, メソッド終了(Controller): {}", userId, jp.getSignature());
 			// 実行結果を呼び出し元に返却
 			return result;
 		} catch (Exception e) {
 			// エラーログ出力
-			log.error("メソッド異常終了(Controller); {}", jp.getSignature());
+			log.error("ユーザーID={}, メソッド異常終了(Controller); {}", userId, jp.getSignature());
 			// エラーの再スロー
 			throw e;
 		}

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 </head>
 <body>
@@ -7,6 +9,10 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">SpringSample</a>
+			</div>
+			<!-- ログインユーザー -->
+			<div class="pull-right navbar-brand">
+				ID: <span sec:authentication="name">id</span>
 			</div>
 			<form method="post" th:action="@{/logout}">
 				<button class="btn btn-link pull-right navbar-brand" type="submit">
